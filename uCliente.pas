@@ -25,7 +25,13 @@ type
     Label6: TLabel;
     cbAtivo: TCheckBox;
     btn_gravar: TButton;
+    btn_limpar: TButton;
+    btn_tirarCarteira: TButton;
     procedure btn_gravarClick(Sender: TObject);
+    procedure validarCampos();
+    procedure limparCampos();
+    procedure btn_limparClick(Sender: TObject);
+    procedure btn_tirarCarteiraClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -46,6 +52,8 @@ implementation
 procedure Tfrm_cliente.btn_gravarClick(Sender: TObject);
 begin
 
+  validarCampos;
+
   codigo := StrToInt(edt_codigo.Text);
   nome := edt_nome.Text;
   sobrenome := edt_sobrenome.Text;
@@ -59,9 +67,88 @@ begin
   else
     sexo := 'Feminino';
 
-  ShowMessage('Olá sr ' + nome);
+  ShowMessage('Olá sr ' + nome + #13 +
+              'Sobrenome: ' + sobrenome + #13 +
+              'Idade ' + IntToStr(idade)+ #13 +
+               'Cidade: ' + cidade);
 
 end;
 
+
+procedure Tfrm_cliente.btn_limparClick(Sender: TObject);
+begin
+
+  limparCampos;
+
+end;
+
+procedure Tfrm_cliente.btn_tirarCarteiraClick(Sender: TObject);
+begin
+
+  if idade >= 18 then
+    ShowMessage('Pode tirar carteira')
+  else
+    ShowMessage('Não pode tirar carteira.');
+
+end;
+
+procedure Tfrm_cliente.limparCampos;
+begin
+
+  edt_codigo.Text := '';
+  edt_nome.Text := '';
+  edt_sobrenome.Text := '';
+  edt_salario.Text := '';
+  edt_cidade.Text := '';
+
+end;
+
+procedure Tfrm_cliente.validarCampos;
+begin
+  if edt_codigo.Text = '' then
+  begin
+    ShowMessage('Campo codigo é obrigatorio!');
+    edt_codigo.SetFocus;
+    abort;
+  end;
+
+  if edt_nome.Text = '' then
+  begin
+    ShowMessage('Campo nome é obrigatorio!');
+    edt_nome.SetFocus;
+    abort;
+  end;
+
+  if edt_sobrenome.Text = '' then
+  begin
+    ShowMessage('Campo sobrenome é obrigatorio!');
+    edt_sobrenome.SetFocus;
+    abort;
+  end;
+
+  if edt_cidade.Text = '' then
+  begin
+    ShowMessage('Campo cidade é obrigatorio!');
+    edt_cidade.SetFocus;
+    abort;
+  end;
+
+  if edt_salario.Text = '' then
+  begin
+    ShowMessage('Campo salario é obrigatorio!');
+    edt_salario.SetFocus;
+    abort;
+  end;
+
+
+  if edt_idade.Text = '' then
+  begin
+    ShowMessage('Campo idade é obrigatorio!');
+    edt_idade.SetFocus;
+    abort;
+  end;
+
+
+end;
 
 end.
