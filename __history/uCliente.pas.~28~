@@ -1,0 +1,207 @@
+unit uCliente;
+
+interface
+
+uses
+  System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
+  FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs, FMX.Edit,
+  FMX.Controls.Presentation, FMX.StdCtrls, FMX.ListBox, FMX.Memo.Types,
+  FMX.ScrollBox, FMX.Memo;
+
+type
+  TCliente = record
+    codigo, idade : Integer;
+    nome, cidade, sobrenome : string;
+    ativo : Boolean;
+    salario : Float32;
+  end;
+
+  Tfrm_cliente = class(TForm)
+    Label1: TLabel;
+    edt_codigo: TEdit;
+    Label2: TLabel;
+    edt_nome: TEdit;
+    Label3: TLabel;
+    edt_idade: TEdit;
+    Label4: TLabel;
+    edt_salario: TEdit;
+    Label5: TLabel;
+    edt_cidade: TEdit;
+    Label8: TLabel;
+    edt_sobrenome: TEdit;
+    cbSexo: TComboBox;
+    Label6: TLabel;
+    cbAtivo: TCheckBox;
+    btn_gravar: TButton;
+    btn_limpar: TButton;
+    btn_tirarCarteira: TButton;
+    btn_verificarFaixa: TButton;
+    btn_verificaCidade: TButton;
+    Memo1: TMemo;
+    procedure btn_gravarClick(Sender: TObject);
+    procedure validarCampos();
+    procedure limparCampos();
+    procedure btn_limparClick(Sender: TObject);
+    procedure btn_tirarCarteiraClick(Sender: TObject);
+    procedure btn_verificarFaixaClick(Sender: TObject);
+    procedure btn_verificaCidadeClick(Sender: TObject);
+    procedure insereClienteLista();
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frm_cliente: Tfrm_cliente;
+  nome, sobrenome, cidade, sexo : string;
+  codigo, idade : Integer;
+  salario : Float32;
+  ativo : Boolean;
+
+implementation
+
+{$R *.fmx}
+
+procedure Tfrm_cliente.btn_gravarClick(Sender: TObject);
+begin
+
+  validarCampos;
+
+  //atribuindo os valores
+  codigo := StrToInt(edt_codigo.Text);
+  nome := edt_nome.Text;
+  sobrenome := edt_sobrenome.Text;
+  idade := StrToInt(edt_idade.Text);
+  salario := StrToFloat(edt_salario.Text);
+  ativo := cbAtivo.IsChecked;
+  cidade := edt_cidade.Text;
+
+  if cbSexo.ItemIndex = 0 then
+    sexo := 'Masculino'
+  else
+    sexo := 'Feminino';
+
+  insereClienteLista;
+
+  ShowMessage('Cliente cadastrado com sucesso.');
+
+end;
+
+
+procedure Tfrm_cliente.btn_limparClick(Sender: TObject);
+begin
+
+  limparCampos;
+
+end;
+
+procedure Tfrm_cliente.btn_tirarCarteiraClick(Sender: TObject);
+begin
+
+  if idade >= 18 then
+    ShowMessage('Pode tirar carteira')
+  else
+    ShowMessage('Não pode tirar carteira.');
+
+end;
+
+procedure Tfrm_cliente.btn_verificaCidadeClick(Sender: TObject);
+begin
+
+  if UpperCase(cidade) = 'CASCAVEL' then
+    ShowMessage('É de Cascavel')
+  else
+    ShowMessage('Fora da cidade');
+
+
+end;
+
+procedure Tfrm_cliente.btn_verificarFaixaClick(Sender: TObject);
+begin
+
+  case idade of
+    0..17 : ShowMessage('Menor de idade');
+    18..30: ShowMessage('Adulto');
+    31..50: ShowMessage('Veio');
+    51..100: ShowMessage('Idoso');
+    else
+      ShowMessage('Pré historico');
+  end;
+
+end;
+
+procedure Tfrm_cliente.insereClienteLista;
+begin
+
+  //inserindo no banco
+  Memo1.Lines.Add('Cliente cod: ' + IntToStr(codigo));
+  Memo1.Lines.Add('Nome completo: ' + nome + ' ' + sobrenome);
+  memo1.Lines.Add('Idade: '+IntToStr(idade));
+  memo1.Lines.Add('Cidade: '+cidade);
+  memo1.Lines.Add('Salario: ' + FloatToStr(salario));
+  memo1.Lines.Add('Ativo: '+ativo.ToString());
+  memo1.Lines.Add('=====================');
+
+end;
+
+procedure Tfrm_cliente.limparCampos;
+begin
+
+  edt_codigo.Text := '';
+  edt_nome.Text := '';
+  edt_sobrenome.Text := '';
+  edt_salario.Text := '';
+  edt_cidade.Text := '';
+
+end;
+
+procedure Tfrm_cliente.validarCampos;
+begin
+  if edt_codigo.Text = '' then
+  begin
+    ShowMessage('Campo codigo é obrigatorio!');
+    edt_codigo.SetFocus;
+    abort;
+  end;
+
+  if edt_nome.Text = '' then
+  begin
+    ShowMessage('Campo nome é obrigatorio!');
+    edt_nome.SetFocus;
+    abort;
+  end;
+
+  if edt_sobrenome.Text = '' then
+  begin
+    ShowMessage('Campo sobrenome é obrigatorio!');
+    edt_sobrenome.SetFocus;
+    abort;
+  end;
+
+  if edt_cidade.Text = '' then
+  begin
+    ShowMessage('Campo cidade é obrigatorio!');
+    edt_cidade.SetFocus;
+    abort;
+  end;
+
+  if edt_salario.Text = '' then
+  begin
+    ShowMessage('Campo salario é obrigatorio!');
+    edt_salario.SetFocus;
+    abort;
+  end;
+
+
+  if edt_idade.Text = '' then
+  begin
+    ShowMessage('Campo idade é obrigatorio!');
+    edt_idade.SetFocus;
+    abort;
+  end;
+
+
+end;
+
+end.

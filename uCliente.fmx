@@ -147,27 +147,59 @@ object frm_cliente: Tfrm_cliente
     Text = 'Ativo'
   end
   object btn_gravar: TButton
-    Position.X = 48.000000000000000000
-    Position.Y = 336.000000000000000000
+    Position.X = 368.000000000000000000
+    Position.Y = 311.000000000000000000
     TabOrder = 15
     Text = 'Gravar'
     OnClick = btn_gravarClick
   end
   object btn_limpar: TButton
-    Position.X = 164.000000000000000000
-    Position.Y = 336.000000000000000000
+    Position.X = 513.000000000000000000
+    Position.Y = 311.000000000000000000
     TabOrder = 16
     Text = 'Limpar'
     OnClick = btn_limparClick
   end
   object btn_tirarCarteira: TButton
     Position.X = 368.000000000000000000
-    Position.Y = 281.000000000000000000
+    Position.Y = 233.000000000000000000
     Size.Width = 121.000000000000000000
     Size.Height = 22.000000000000000000
     Size.PlatformDefault = False
     TabOrder = 17
     Text = 'Pode tirar Carteira?'
     OnClick = btn_tirarCarteiraClick
+  end
+  object btn_verificarFaixa: TButton
+    Position.X = 368.000000000000000000
+    Position.Y = 187.000000000000000000
+    Size.Width = 121.000000000000000000
+    Size.Height = 22.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 18
+    Text = 'Verificar a faixa etaria'
+    OnClick = btn_verificarFaixaClick
+  end
+  object btn_verificaCidade: TButton
+    Position.X = 368.000000000000000000
+    Position.Y = 281.000000000000000000
+    Size.Width = 153.000000000000000000
+    Size.Height = 22.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 19
+    Text = 'Verificar Cidade'
+    OnClick = btn_verificaCidadeClick
+  end
+  object Memo1: TMemo
+    Touch.InteractiveGestures = [Pan, LongTap, DoubleTap]
+    DataDetectorTypes = []
+    Position.X = 16.000000000000000000
+    Position.Y = 328.000000000000000000
+    Size.Width = 329.000000000000000000
+    Size.Height = 129.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 20
+    Viewport.Width = 325.000000000000000000
+    Viewport.Height = 125.000000000000000000
   end
 end

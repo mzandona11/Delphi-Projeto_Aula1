@@ -5,9 +5,17 @@ interface
 uses
   System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
   FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs, FMX.Edit,
-  FMX.Controls.Presentation, FMX.StdCtrls, FMX.ListBox;
+  FMX.Controls.Presentation, FMX.StdCtrls, FMX.ListBox, FMX.Memo.Types,
+  FMX.ScrollBox, FMX.Memo;
 
 type
+  TCliente = record
+    codigo, idade : Integer;
+    nome, cidade, sobrenome, sexo : string;
+    ativo : Boolean;
+    salario : Float32;
+  end;
+
   Tfrm_cliente = class(TForm)
     Label1: TLabel;
     edt_codigo: TEdit;
@@ -27,11 +35,17 @@ type
     btn_gravar: TButton;
     btn_limpar: TButton;
     btn_tirarCarteira: TButton;
+    btn_verificarFaixa: TButton;
+    btn_verificaCidade: TButton;
+    Memo1: TMemo;
     procedure btn_gravarClick(Sender: TObject);
     procedure validarCampos();
     procedure limparCampos();
     procedure btn_limparClick(Sender: TObject);
     procedure btn_tirarCarteiraClick(Sender: TObject);
+    procedure btn_verificarFaixaClick(Sender: TObject);
+    procedure btn_verificaCidadeClick(Sender: TObject);
+    procedure insereClienteLista(cliente :TCliente);
   private
     { Private declarations }
   public
@@ -40,37 +54,34 @@ type
 
 var
   frm_cliente: Tfrm_cliente;
-  nome, sobrenome, cidade, sexo : string;
-  codigo, idade : Integer;
-  salario : Float32;
-  ativo : Boolean;
 
 implementation
 
 {$R *.fmx}
 
 procedure Tfrm_cliente.btn_gravarClick(Sender: TObject);
+var vCliente : TCliente;
 begin
 
   validarCampos;
 
-  codigo := StrToInt(edt_codigo.Text);
-  nome := edt_nome.Text;
-  sobrenome := edt_sobrenome.Text;
-  idade := StrToInt(edt_idade.Text);
-  salario := StrToFloat(edt_salario.Text);
-  ativo := cbAtivo.IsChecked;
-  cidade := edt_cidade.Text;
+  //atribuindo os valores
+  vCliente.codigo := StrToInt(edt_codigo.Text);
+  vCliente.nome := edt_nome.Text;
+  vCliente.sobrenome := edt_sobrenome.Text;
+  vCliente.idade := StrToInt(edt_idade.Text);
+  vCliente.salario := StrToFloat(edt_salario.Text);
+  vCliente.ativo := cbAtivo.IsChecked;
+  vCliente.cidade := edt_cidade.Text;
 
   if cbSexo.ItemIndex = 0 then
-    sexo := 'Masculino'
+    vCliente.sexo := 'Masculino'
   else
-    sexo := 'Feminino';
+    vCliente.sexo := 'Feminino';
 
-  ShowMessage('Olá sr ' + nome + #13 +
-              'Sobrenome: ' + sobrenome + #13 +
-              'Idade ' + IntToStr(idade)+ #13 +
-               'Cidade: ' + cidade);
+  insereClienteLista(vCliente);
+
+  ShowMessage('Cliente cadastrado com sucesso.');
 
 end;
 
@@ -84,11 +95,50 @@ end;
 
 procedure Tfrm_cliente.btn_tirarCarteiraClick(Sender: TObject);
 begin
-
+  {
   if idade >= 18 then
     ShowMessage('Pode tirar carteira')
   else
     ShowMessage('Não pode tirar carteira.');
+  }
+end;
+
+procedure Tfrm_cliente.btn_verificaCidadeClick(Sender: TObject);
+begin
+  {
+  if UpperCase(cidade) = 'CASCAVEL' then
+    ShowMessage('É de Cascavel')
+  else
+    ShowMessage('Fora da cidade');
+  }
+
+end;
+
+procedure Tfrm_cliente.btn_verificarFaixaClick(Sender: TObject);
+begin
+  {
+  case idade of
+    0..17 : ShowMessage('Menor de idade');
+    18..30: ShowMessage('Adulto');
+    31..50: ShowMessage('Veio');
+    51..100: ShowMessage('Idoso');
+    else
+      ShowMessage('Pré historico');
+  end;
+  }
+end;
+
+procedure Tfrm_cliente.insereClienteLista(cliente :TCliente);
+begin
+
+  //inserindo no banco
+  Memo1.Lines.Add('Cliente cod: ' + IntToStr(cliente.codigo));
+  Memo1.Lines.Add('Nome completo: ' + cliente.nome + ' ' + cliente.sobrenome);
+  memo1.Lines.Add('Idade: '+IntToStr(cliente.idade));
+  memo1.Lines.Add('Cidade: '+cliente.cidade);
+  memo1.Lines.Add('Salario: ' + FloatToStr(cliente.salario));
+  memo1.Lines.Add('Ativo: '+cliente.ativo.ToString());
+  memo1.Lines.Add('=====================');
 
 end;
 
