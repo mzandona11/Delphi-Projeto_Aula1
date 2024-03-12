@@ -54,6 +54,7 @@ type
 
 var
   frm_cliente: Tfrm_cliente;
+  aClientes : Array[0..10] of TCliente;
 
 implementation
 
@@ -79,7 +80,7 @@ begin
   else
     vCliente.sexo := 'Feminino';
 
-  insereClienteLista;
+  insereClienteLista(vCliente);
 
   ShowMessage('Cliente cadastrado com sucesso.');
 
@@ -105,7 +106,7 @@ end;
 
 procedure Tfrm_cliente.btn_verificaCidadeClick(Sender: TObject);
 begin
-  {
+    {
   if UpperCase(cidade) = 'CASCAVEL' then
     ShowMessage('É de Cascavel')
   else
@@ -116,7 +117,7 @@ end;
 
 procedure Tfrm_cliente.btn_verificarFaixaClick(Sender: TObject);
 begin
-
+  {
   case idade of
     0..17 : ShowMessage('Menor de idade');
     18..30: ShowMessage('Adulto');
@@ -125,11 +126,29 @@ begin
     else
       ShowMessage('Pré historico');
   end;
-
+  }
 end;
 
 procedure Tfrm_cliente.insereClienteLista(cliente :TCliente);
+var
+  I: Integer;
 begin
+
+
+  for I := 0 to 10 do
+  begin
+    if aClientes[I].codigo = 0 then
+    begin
+      aClientes[I].codigo := cliente.codigo;
+      aClientes[I].nome := cliente.nome;
+      aClientes[I].idade := cliente.idade;
+      aClientes[I].cidade := cliente.cidade;
+      aClientes[I].sobrenome := cliente.sobrenome;
+      aClientes[I].sexo := cliente.sexo;
+      aClientes[I].ativo := cliente.ativo;
+      break;
+    end;
+  end;
 
   //inserindo no banco
   Memo1.Lines.Add('Cliente cod: ' + IntToStr(cliente.codigo));

@@ -202,4 +202,21 @@ object frm_cliente: Tfrm_cliente
     Viewport.Width = 325.000000000000000000
     Viewport.Height = 125.000000000000000000
   end
+  object btn_imprimirTodos: TButton
+    Position.X = 368.000000000000000000
+    Position.Y = 352.000000000000000000
+    Size.Width = 113.000000000000000000
+    Size.Height = 33.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 21
+    Text = 'Imprimir Todos'
+    OnClick = btn_imprimirTodosClick
+  end
+  object btn_Buscar: TButton
+    Position.X = 144.000000000000000000
+    Position.Y = 42.000000000000000000
+    TabOrder = 22
+    Text = 'Pesquisar'
+    OnClick = btn_BuscarClick
+  end
 end

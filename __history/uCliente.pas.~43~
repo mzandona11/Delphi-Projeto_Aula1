@@ -38,6 +38,8 @@ type
     btn_verificarFaixa: TButton;
     btn_verificaCidade: TButton;
     Memo1: TMemo;
+    btn_imprimirTodos: TButton;
+    btn_Buscar: TButton;
     procedure btn_gravarClick(Sender: TObject);
     procedure validarCampos();
     procedure limparCampos();
@@ -46,6 +48,8 @@ type
     procedure btn_verificarFaixaClick(Sender: TObject);
     procedure btn_verificaCidadeClick(Sender: TObject);
     procedure insereClienteLista(cliente :TCliente);
+    procedure btn_imprimirTodosClick(Sender: TObject);
+    procedure btn_BuscarClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -54,10 +58,34 @@ type
 
 var
   frm_cliente: Tfrm_cliente;
+  aClientes : Array[0..10] of TCliente;
 
 implementation
 
 {$R *.fmx}
+
+procedure Tfrm_cliente.btn_BuscarClick(Sender: TObject);
+var
+  I: Integer;
+  achou : Boolean;
+begin
+  for I := 0 to 10 do
+    if aClientes[I].codigo = StrToInt(edt_codigo.Text) then
+    begin
+      edt_codigo.Text := IntToStr(aClientes[I].codigo);
+      edt_idade.Text := IntToStr(aClientes[I].idade);
+      edt_nome.Text := aClientes[I].nome;
+      edt_sobrenome.Text := aClientes[I].sobrenome;
+      edt_cidade.Text := aClientes[I].cidade;
+      edt_salario.Text := FloatToStr(aClientes[I].salario);
+      cbAtivo.IsChecked := aClientes[I].ativo;
+      if aClientes[I].sexo = 'Masculino' then
+        cbSexo.ItemIndex := 0
+      else
+        cbSexo.ItemIndex := 1;
+    end;
+
+end;
 
 procedure Tfrm_cliente.btn_gravarClick(Sender: TObject);
 var vCliente : TCliente;
@@ -79,12 +107,34 @@ begin
   else
     vCliente.sexo := 'Feminino';
 
-  insereClienteLista;
+  insereClienteLista(vCliente);
 
   ShowMessage('Cliente cadastrado com sucesso.');
 
 end;
 
+
+procedure Tfrm_cliente.btn_imprimirTodosClick(Sender: TObject);
+var
+  I: Integer;
+begin
+
+  for I := 0 to 10 do
+  begin
+    if aClientes[I].codigo <> 0 then
+    begin
+      Memo1.Lines.Add('Cliente cod: ' + IntToStr(aClientes[I].codigo));
+      Memo1.Lines.Add('Nome completo: ' + aClientes[I].nome + ' ' + aClientes[I].sobrenome);
+      memo1.Lines.Add('Idade: '+IntToStr(aClientes[I].idade));
+      memo1.Lines.Add('Cidade: '+aClientes[I].cidade);
+      memo1.Lines.Add('Salario: ' + FloatToStr(aClientes[I].salario));
+      memo1.Lines.Add('Ativo: '+aClientes[I].ativo.ToString());
+      memo1.Lines.Add('=====================');
+    end;
+  end;
+
+
+end;
 
 procedure Tfrm_cliente.btn_limparClick(Sender: TObject);
 begin
@@ -105,7 +155,7 @@ end;
 
 procedure Tfrm_cliente.btn_verificaCidadeClick(Sender: TObject);
 begin
-  {
+    {
   if UpperCase(cidade) = 'CASCAVEL' then
     ShowMessage('É de Cascavel')
   else
@@ -129,7 +179,17 @@ begin
 end;
 
 procedure Tfrm_cliente.insereClienteLista(cliente :TCliente);
+var
+  I: Integer;
 begin
+  for I := 0 to 10 do
+  begin
+    if aClientes[I].codigo = 0 then
+    begin
+      aClientes[I] := cliente;
+      break;
+    end;
+  end;
 
   //inserindo no banco
   Memo1.Lines.Add('Cliente cod: ' + IntToStr(cliente.codigo));
